@@ -1,13 +1,13 @@
 from visca import camera
-import binascii
+cam = camera.D30(output='COM3')
+cam.init()
 
-def test(cam, read=3):
-    cam._output.write(binascii.unhexlify('81010604FF'))
-    response = binascii.hexlify(cam._output.read(read))
-    return response
+# import binascii
 
-cam = camera.D100(output='COM3') # set serial port
-cam.init() # initialize camera object and connect to serial port
+# def test(cam, read=3):
+#     # cam._output.write(binascii.unhexlify('81010604FF'))
+#     response = binascii.hexlify(cam._output.read(read))
+#     return response
 
 # from time import sleep
 
