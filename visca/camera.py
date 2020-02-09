@@ -75,8 +75,37 @@ class D30(Camera):
         command = '8101043F0'+str(action)+'0'+str(address)+'FF'
         return self.comm(command)
 
-    def set_pos(self, pan_speed='18', tilt_speed='14', pan='0000', tilt='0000'):
-        command = '81010602'+pan_speed+tilt_speed
+    @staticmethod
+    def _dec2hex(dec):
+        if dec < 0:
+            dec = dec + 65536
+        hex = '%X' % round(dec)
+        if len(hex) == 1: hex = '000' + hex
+        if len(hex) == 2: hex = '00' + hex
+        if len(hex) == 3: hex = '0' + hex
+        return hex
+
+    def set_pos(self, pan_speed=1.0, tilt_speed=1.0, pan=0.00, tilt=0.00, shift=0, scale=1):
+        if scale:
+            pan_speed = str(round(pan_speed*18))
+            tilt_speed = str(round(tilt_speed*14))
+            pan = self._dec2hex(pan*865)
+            tilt = self._dec2hex(tilt*285)
+        else:
+            pan_speed = str(round(pan_speed))
+            tilt_speed = str(round(tilt_speed))
+            pan = self._dec2hex(pan)
+            tilt = self._dec2hex(tilt)
+        if len(pan_speed) == 1: pan_speed = '0' + pan_speed
+        if len(tilt_speed) == 1: tilt_speed = '0' + tilt_speed
+        return self.set_pos_str(pan_speed=pan_speed, tilt_speed=tilt_speed, pan=pan, tilt=tilt, shift=shift)
+
+    def set_pos_str(self, pan_speed='18', tilt_speed='14', pan='0000', tilt='0000', shift=0):
+        if shift:
+            shift_bit = '3'
+        else:
+            shift_bit = '2'
+        command = '8101060'+shift_bit+pan_speed+tilt_speed
         command = command+'0'+pan[0]+'0'+pan[1]+'0'+pan[2]+'0'+pan[3]
         command = command+'0'+tilt[0]+'0'+tilt[1]+'0'+tilt[2]+'0'+tilt[3]
         command = command+'FF'
