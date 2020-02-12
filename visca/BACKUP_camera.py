@@ -4,6 +4,7 @@ import numpy as np
 import serial
 from scipy.interpolate import interp1d
 
+
 class Camera(object):
     _input = None
     _output = None
@@ -26,7 +27,7 @@ class Camera(object):
         :rtype: Camera
         """
         # self._input = serial.Serial(self._input_string)
-        self._output = serial.Serial(self._output_string, timeout=1)
+        self._output = serial.Serial(self._output_string)
 
     def command(self, com):
         """Sends hexadecimal string to serial port.
@@ -40,7 +41,7 @@ class Camera(object):
             self._output.write(binascii.unhexlify(com))
             return True
         except Exception as e:
-            print(com, e)
+            print com, e
             return False
 
     @staticmethod
@@ -55,7 +56,7 @@ class Camera(object):
             serial_port.close()
             return True
         else:
-            print("Error closing serial port: Already closed.")
+            print "Error closing serial port: Already closed."
             return False
 
     @staticmethod
@@ -70,17 +71,18 @@ class Camera(object):
             serial_port.open()
             return True
         else:
-            print("Error opening serial port: Already open.")
+            print "Error opening serial port: Already open."
             return False
 
-    def read(self, amount=13):
+    def read(self, amount=3):
         total = ""
-        for nada in range(amount):
-            msg = binascii.hexlify(self._output.read()).decode('ascii')
+        while True:
+            msg = binascii.hexlify(self._output.read())
             total = total + msg
             if msg == "ff":
                 break
         return total
+
 
 class D100(Camera):
     """Sony EVI-D100 VISCA control class.
