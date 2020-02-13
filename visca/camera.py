@@ -19,7 +19,7 @@ class Camera(object):
         :return: Camera object.
         :rtype: Camera
         """
-        self._output = Serial(self._output_string, timeout=4)
+        self._output = Serial(self._output_string, timeout=4.5)
         return self
 
     def comm(self, com, listen=1):
@@ -65,7 +65,7 @@ class D30(Camera):
     def off(self):
         return self.comm('8101040003FF')
 
-    # TODO: Add controls for zoom, focus, wb, ae, brightness, shutter, iris, gain, and backlight.
+    # TODO: Add controls for manual focus, wb, ae, brightness, shutter, iris, gain, and backlight.
 
     def memory(self, address=0, action=2):
         if address not in [0, 1, 2, 3, 4, 5]:
@@ -76,6 +76,13 @@ class D30(Camera):
         return self.comm(command)
 
     @staticmethod
+    def _hex2dec(hex):
+        dec = int(hex, 16)
+        if dec > 32768:
+            dec = dec - 65536
+        return dec
+
+    @staticmethod
     def _dec2hex(dec):
         if dec < 0:
             dec = dec + 65536
@@ -84,6 +91,19 @@ class D30(Camera):
         if len(hex) == 2: hex = '00' + hex
         if len(hex) == 3: hex = '0' + hex
         return hex
+
+    def set_zoom(self, zoom=0.00, scale=1):
+        if scale:
+            zoom = self._dec2hex(zoom*1023)
+        else:
+            zoom = self._dec2hex(zoom)
+        return self.set_zoom_str(zoom=zoom)
+
+    def set_zoom_str(self, zoom='0000'):
+        command = '81010447'
+        command = command+'0'+zoom[0]+'0'+zoom[1]+'0'+zoom[2]+'0'+zoom[3]
+        command = command+'FF'
+        return self.comm(command)
 
     def set_pos(self, pan_speed=1.0, tilt_speed=1.0, pan=0.00, tilt=0.00, shift=0, scale=1):
         if scale:
@@ -261,6 +281,16 @@ class D30(Camera):
     def get_cam_power(self):
         return self.comm('81090400FF')
 
+    def get_zoom(self):
+        zoom = self.get_zoom_str()
+        zoom = self._hex2dec(zoom)
+        return zoom
+
+    def get_zoom_str(self):
+        r = self.get_cam_zoom_pos()
+        zoom = r[5] + r[7] + r[9] + r[11]
+        return zoom
+
     def get_cam_zoom_pos(self):
         return self.comm('81090447FF')
 
@@ -305,13 +335,6 @@ class D30(Camera):
 
     def get_pantilt_max_speed(self, amount=5):
         return self.comm('81090611FF')
-
-    @staticmethod
-    def _hex2dec(hex):
-        dec = int(hex, 16)
-        if dec > 32768:
-            dec = dec - 65536
-        return dec
 
     def get_pos(self):
         pan, tilt = self.get_pos_str()
