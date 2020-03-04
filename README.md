@@ -9,3 +9,8 @@ Back-end for ASTRAL: Arcane System for Tabletop Roleplaying from Any Location
   - Node.js localhost HTTP server. It handles communication between the Front-end and a Python handler script.
   - Python handler script that decides how to execute requests and listens for responses. It uses a custom library.
   - Custom Python library that does low-level camera communication.
+
+## Startup:
+1. open command prompt and navigate to this directory
+2. run `node server.js`
+3. navigate to http://localhost:8080 to reach the web server.
