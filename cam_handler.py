@@ -9,9 +9,7 @@ with open('log.txt', 'a') as log:
 
 message_back = {
     'args': args,
-    'message': """Hello!
-This is a return json message.
-That is all."""
+    'message': 'This is a message from the Python script!'
 }
 
 print(json.dumps(message_back))
