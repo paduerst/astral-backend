@@ -6,9 +6,9 @@ const app = express()
 const port = 8080
 const script = 'cam_handler.py';
 
-function runScript(arg1, arg2) {
+function runScript(arg1, arg2, arg3) {
   return new Promise((resolve, reject) => {
-    const process = spawn('python', [`./${script}`, arg1, arg2]);
+    const process = spawn('python', [`./${script}`, arg1, arg2, arg3]);
 
     const out = [];
     process.stdout.on(
@@ -45,17 +45,17 @@ function runScript(arg1, arg2) {
 const requestListener = async function (req, res) {
   console.log(req.url);
   const q = url.parse(req.url, true).query;
-  if (q.command && q.value) {
+  if (q.command) {
     var output;
     try {
-      output = await runScript(q.command, q.value);
+      output = await runScript(q.command, q.val1, q.val2);
     } catch (e) {
       console.error('Error during script execution ', e.stack);
       process.exit(1);
     }
-    res.json(output);
+    res.status(200).json(output);
   } else {
-    res.json({message: 'Send a valid command and value next time, buddy!'});
+    res.json({message: 'Send a valid command next time, buddy!'});
   }
 }
 
