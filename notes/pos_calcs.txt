@@ -39,5 +39,5 @@ just shy of neautral:
 ffc7
 
 basically ranges from:
--860 to 862 for pan (about 800 is 90 deg)
--282 to 283 for tilt
+-860 to 862 for pan (about 800 is 90 deg, so range is about -97deg to 97deg)
+-282 to 283 for tilt (-32deg to 32deg)
