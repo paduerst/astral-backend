@@ -9,6 +9,24 @@ def handleCommand(cam, args):
     val2 = args[2]
     if command == 'home':
         cam.home()
+    elif command == 'pantilt' or command == 'relpantilt':
+        pan = int(val1)/97.0
+        tilt = int(val2)/32.0
+        if command == 'relpantilt':
+            shift = 1
+        else:
+            shift = 0
+        cam.set_pos(pan=pan, tilt=tilt, shift=shift)
+    elif command == 'zoom':
+        percentage = int(val1)/100.0
+        cam.set_zoom(percentage)
+    elif command == 'mem':
+        if val1 == 'goto':
+            action = 2
+        elif val1 == 'set':
+            action = 1
+        address = int(val2)-1
+        cam.memory(address, action)
 
 # Code to execute:
 cam = camera.D30(output='COM4', deaf=1)
