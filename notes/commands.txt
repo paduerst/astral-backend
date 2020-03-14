@@ -1,0 +1,37 @@
+As a minimum viable product, it is acceptable to be able to send commands to the camera from the website without receiving information back.
+This means the current server stuff is at MVP, since I've achieved one-way communication.
+Given that, I'll describe the MVP below:
+
+pantilt, go to absolute pan/tilt position, user inputs angle in degrees, 2 text boxes and 1 button
+relpantilt, shift pan/tilt, user inputs angle shift in degrees, 2 text boxes and 1 button
+home, set pant/tilt to home, user just presses "home" button, 1 button
+zoom, set zoom percentage, user inputs a percentage from 0 (widest) to 100 (zoomest), 1 text box and 1 button
+memgo, go to a preset, user inputs an integer from 1 to 6, dropdown menu of 6 options and 1 button
+memset, store current pan/tilt position as a preset, user inputs an integer from 1 to 6, 1 extra button to above memory interface
+
+Notes from Raine conversation on 2020-03-06:
+Raine is fine with one-way communication.
+prefers absolute over relative positional commands.
+prefers degrees over percentages for pan/tilt.
+wants separate fields for absolute/relative commands. Store numbers between commands for easier adjusting.
+will use an iPad or full laptop screen (Chrome) for running website.
+thinks multiple users won't work well with this setup (I agree. Fun to try once though.).
+wants the website to display the current pan/tilt/zoom position.
+
+I can reduce the delay if I don't actually need response info from the camera. Then I'd need to add an artificial delay to prevent command overflow.
+Website needs an entry for the subdomain at the top.
+
+Stretch Goals:
+Once two-way communication is achieved, the following webapp commands could be relevant:
+
+zoomcheck, check the current zoom percentage, user just presses "refresh" button next to a zoom percentage display field
+pantiltcheck, check the current pan/tilt position, user just presses "refresh" button next to a pan/tilt position display field
+powercheck, check if the camera is on, not user facing (just used by webapp on startup)
+poweron, turn the camera on, not user facing (just used by server on startup)
+poweroff, turn the camera off, not user facing (just used by server on shutdown)
+
+These two I'm deeming unecessary right now, since you can just put in 0 for one or the other:
+relpan, shift pan not tilt, user inputs angle shift in degrees
+reltilt, shift tilt not pan, user inputs angle shift in degrees
+
+Can store camera state on server, rather than asking the camera each time.
