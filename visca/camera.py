@@ -5,13 +5,17 @@ class Camera(object):
     _output = None
     _output_string = None
 
-    def __init__(self, output='COM1'):
+    def __init__(self, output='COM1', deaf=0):
         """Sony VISCA control class.
 
         :param output: Outbound serial port string. (default: 'COM1')
         :type output: str
         """
         self._output_string = output
+        if (deaf):
+            self._timeout = 0.5
+        else:
+            self._timeout = 4.5
 
     def init(self):
         """Initializes camera object by connecting to serial port.
@@ -19,7 +23,7 @@ class Camera(object):
         :return: Camera object.
         :rtype: Camera
         """
-        self._output = Serial(self._output_string, timeout=4.5)
+        self._output = Serial(self._output_string, timeout=self._timeout)
         return self
 
     def comm(self, com, listen=1):
