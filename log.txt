@@ -59,3 +59,7 @@
 ['pantilt', '0', '0']
 ['pantilt', '4', '-5']
 ['HITAL', 'undefined', 'undefined']
+(2020-03-13, 22:38:56): ['pantilt', '0', '0']
+(2020-03-13, 22:40:30): ['pantilt', '0', '0']
+(2020-03-13, 22:40:37): ['home', 'undefined', 'undefined']
+(2020-03-13, 22:40:49): ['home', 'undefined', 'undefined']
