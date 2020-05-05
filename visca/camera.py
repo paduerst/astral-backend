@@ -240,6 +240,18 @@ class D30(Camera):
         """
         return self.comm('8101043900FF')
 
+    def set_cam_ae_bright(self):
+        return self.comm('810104390DFF')
+
+    def set_bright_reset(self):
+        return self.comm('8101040D00FF')
+
+    def set_bright_up(self):
+        return self.comm('8101040D02FF')
+
+    def set_bright_down(self):
+        return self.comm('8101040D03FF')
+
     def set_cam_focus_auto(self):
         """Turns autofocus on.
 
