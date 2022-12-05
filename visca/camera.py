@@ -284,6 +284,14 @@ class D30(Camera):
         """
         return self.comm('8101043502FF')
 
+    def set_wide_compensation(self, conversion):
+        """Automatic Target Trace: Conversion for Wide Lens
+
+        :conversion: float from 0 to 1
+        """
+        Z = int(7*conversion)
+        return self.comm('81010726000'+str(Z)+'FF')
+
     def check_power(self):
         response = self.get_cam_power()
         bit = response[5]
