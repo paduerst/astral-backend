@@ -1,7 +1,12 @@
+import os
 import sys
+repo_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+visca_path = os.path.join(repo_path, "visca")
+sys.path.insert(0, visca_path)
+import camera
+
 import json
 from datetime import datetime
-from visca import camera
 
 def handleCommand(cam, args):
     command = args[0]
@@ -29,7 +34,7 @@ def handleCommand(cam, args):
         cam.memory(address, action)
 
 # Code to execute:
-cam = camera.D30(output='COM4', deaf=1)
+cam = camera.D30(output='/dev/ttyUSB0', deaf=1)
 cam.init()
 
 args = sys.argv[1:]
