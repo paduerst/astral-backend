@@ -1,0 +1,3 @@
+[submodule "cam_handler/ViscaProtocolParser"]
+	path = cam_handler/ViscaProtocolParser
+	url = https://github.com/paduerst/ViscaProtocolParser.git
