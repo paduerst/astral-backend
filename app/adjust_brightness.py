@@ -6,7 +6,7 @@ cam.init()
 cam.set_cam_ae_bright()
 print("Cam adjust brightness utility.")
 print("Entering manual brightness mode.")
-print('Input = "u" for up, "d" for down, "r" for reset, "q" for quit, "a" for auto.')
+print('Input = "u" for up, "d" for down, "r" for reset, "q" for quit, "a" for auto, "h" for home.')
 while True:
     adjust = input("Input = ")
     if adjust == "u":
@@ -15,6 +15,8 @@ while True:
         cam.set_bright_down()
     elif adjust == "r":
         cam.set_bright_reset()
+    elif adjust == "h":
+        cam.home()
     elif adjust == "q":
         print("Goodbye.")
         break
