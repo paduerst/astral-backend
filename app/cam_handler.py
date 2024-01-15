@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 
 
-def handleCommand(cam, args):
+def handle_command(cam: camera.D30, args):
     command = args[0]
     val1 = args[1]
     val2 = args[2]
@@ -31,22 +31,22 @@ def handleCommand(cam, args):
         cam.memory(address, action)
 
 
-# Code to execute:
-cam = camera.D30(deaf=True)
-cam.init()
+if __name__ == '__main__':
+    cam = camera.D30(deaf=True)
+    cam.init()
 
-args = sys.argv[1:]
+    args = sys.argv[1:]
 
-with open('log.txt', 'a') as log:
-    log.write(datetime.now().strftime('(%Y-%m-%d, %H:%M:%S): '))
-    log.write(str(args))
-    log.write('\n')
+    with open('log.txt', 'a') as log:
+        log.write(datetime.now().strftime('(%Y-%m-%d, %H:%M:%S): '))
+        log.write(str(args))
+        log.write('\n')
 
-handleCommand(cam, args)
+    handle_command(cam, args)
 
-message_back = {
-    'args': args,
-    'message': 'Python: Success!'
-}
+    message_back = {
+        'args': args,
+        'message': 'Python: Success!'
+    }
 
-print(json.dumps(message_back))
+    print(json.dumps(message_back))
