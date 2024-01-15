@@ -6,7 +6,7 @@ class Camera(object):
     _output = None
     _output_string = None
 
-    def __init__(self, output='/dev/ttyUSB0', deaf=0):
+    def __init__(self, output='/dev/tty.usbserial-140', deaf=0):
         """Sony VISCA control class.
 
         :param output: Outbound serial port string. (default: 'COM1')
