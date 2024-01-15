@@ -1,18 +1,32 @@
+import os
+
 from binascii import hexlify, unhexlify
+from dotenv import load_dotenv
 from serial import Serial
+
+
+this_directory = os.path.dirname(os.path.abspath(__file__))
 
 
 class Camera(object):
     _output = None
     _output_string = None
 
-    def __init__(self, output='/dev/tty.usbserial-140', deaf=0):
+    def __init__(self, output: str = '', deaf: bool = False):
         """Sony VISCA control class.
 
-        :param output: Outbound serial port string. (default: 'COM1')
+        :param output: Outbound serial port string. (default: loads from CAMERA_PORT in .env)
         :type output: str
         """
-        self._output_string = output
+        if output == '':
+            load_dotenv(dotenv_path=os.path.join(this_directory, '.env'))
+            camera_port = os.getenv('CAMERA_PORT')
+            if camera_port == None:
+                raise RuntimeError("CAMERA_PORT not defined in .env")
+            self._output_string = camera_port
+        else:
+            self._output_string = output
+
         if (deaf):
             self._timeout = 0.5
         else:

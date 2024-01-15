@@ -1,6 +1,6 @@
 import camera
 
-cam = camera.D30(output='/dev/tty.usbserial-140', deaf=1)
+cam = camera.D30(deaf=True)
 cam.init()
 
 cam.set_cam_ae_bright()
