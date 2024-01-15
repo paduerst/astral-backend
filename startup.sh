@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# start up the tunnel from remote to localhost
-tilix -a session-add-right -t "ASTRAL Tunnel" -e "cloudflared tunnel --url localhost:8080/"
+# Start up the tunnel from remote to localhost in a new Terminal window
+osascript -e 'tell app "Terminal" to do script "cloudflared tunnel --url localhost:8080/"'
 
-# start up the localhost server
-cd $HOME/Workspace/astral-backend/app
-node server.js
+# Start up the localhost server in a new Terminal window
+osascript -e 'tell app "Terminal" to do script "cd $HOME/Workspace/astral-backend/app && source $HOME/miniconda3/bin/activate astral-backend && node server.js"'

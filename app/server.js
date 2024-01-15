@@ -8,7 +8,7 @@ const script = 'cam_handler.py';
 
 function runScript(arg1, arg2, arg3) {
   return new Promise((resolve, reject) => {
-    const process = spawn('python3', [`./${script}`, arg1, arg2, arg3]);
+    const process = spawn("python", [`./${script}`, arg1, arg2, arg3]);
 
     const out = [];
     process.stdout.on(
