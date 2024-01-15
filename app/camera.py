@@ -1,6 +1,7 @@
 from binascii import hexlify, unhexlify
 from serial import Serial
 
+
 class Camera(object):
     _output = None
     _output_string = None
@@ -56,6 +57,7 @@ class Camera(object):
                     subtotal = ""
         return total.strip()
 
+
 class D30(Camera):
     """Sony EVI-D30 VISCA control class.
 
@@ -91,9 +93,12 @@ class D30(Camera):
         if dec < 0:
             dec = dec + 65536
         hex = '%X' % round(dec)
-        if len(hex) == 1: hex = '000' + hex
-        if len(hex) == 2: hex = '00' + hex
-        if len(hex) == 3: hex = '0' + hex
+        if len(hex) == 1:
+            hex = '000' + hex
+        if len(hex) == 2:
+            hex = '00' + hex
+        if len(hex) == 3:
+            hex = '0' + hex
         return hex
 
     def set_zoom(self, zoom=0.00, scale=1):
@@ -120,8 +125,10 @@ class D30(Camera):
             tilt_speed = str(round(tilt_speed))
             pan = self._dec2hex(pan)
             tilt = self._dec2hex(tilt)
-        if len(pan_speed) == 1: pan_speed = '0' + pan_speed
-        if len(tilt_speed) == 1: tilt_speed = '0' + tilt_speed
+        if len(pan_speed) == 1:
+            pan_speed = '0' + pan_speed
+        if len(tilt_speed) == 1:
+            tilt_speed = '0' + tilt_speed
         return self.set_pos_str(pan_speed=pan_speed, tilt_speed=tilt_speed, pan=pan, tilt=tilt, shift=shift)
 
     def set_pos_str(self, pan_speed='18', tilt_speed='14', pan='0000', tilt='0000', shift=0):
@@ -165,7 +172,7 @@ class D30(Camera):
         :return: True if successful, False if not.
         :rtype: bool
         """
-        return self.comm('81010001FF') # Undocumented for D30.
+        return self.comm('81010001FF')  # Undocumented for D30.
 
     def left(self, amount=5):
         """Modifies pan speed to left.
@@ -176,7 +183,8 @@ class D30(Camera):
         """
         hex_string = "%X" % amount
         hex_string = '0' + hex_string if len(hex_string) < 2 else hex_string
-        s = '81010601VVWW0103FF'.replace('VV', hex_string).replace('WW', str(15))
+        s = '81010601VVWW0103FF'.replace(
+            'VV', hex_string).replace('WW', str(15))
         return self.comm(s)
 
     def right(self, amount=5):
@@ -187,7 +195,8 @@ class D30(Camera):
         """
         hex_string = "%X" % amount
         hex_string = '0' + hex_string if len(hex_string) < 2 else hex_string
-        s = '81010601VVWW0203FF'.replace('VV', hex_string).replace('WW', str(15))
+        s = '81010601VVWW0203FF'.replace(
+            'VV', hex_string).replace('WW', str(15))
         return self.comm(s)
 
     def up(self, amount=5):
@@ -300,7 +309,8 @@ class D30(Camera):
         elif bit == '3':
             return 0
         else:
-            raise ValueError('Invalid State Reading: '+str(response)+', '+str(bit))
+            raise ValueError('Invalid State Reading: ' +
+                             str(response)+', '+str(bit))
 
     def get_cam_power(self):
         return self.comm('81090400FF')
